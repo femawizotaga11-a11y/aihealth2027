@@ -439,7 +439,7 @@ html.locked .pin-gate{display:flex}
 .pin-card .logo{margin:0 auto 16px;width:52px;height:52px;border-radius:16px}
 .pin-card h2{margin:0 0 4px;font-size:20px}
 .pin-card p{margin:0 0 22px;color:var(--night-muted);font-size:13.5px}
-.pin-dots{display:flex;justify-content:center;gap:16px;margin-bottom:10px}
+.pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:10px}
 .pin-dots i{width:16px;height:16px;border-radius:3px;border:2px solid rgba(255,255,255,.4);transition:.15s}
 .pin-dots i.on{background:#f6d56a;border-color:#f6d56a;transform:scale(1.1)}
 .pin-dots.err{animation:pinshake .4s}
@@ -493,8 +493,8 @@ html.locked .pin-gate{display:flex}
   <div class="pin-card">
     <span class="logo"><svg class="i"><use href="#i-spark"/></svg></span>
     <h2 id="pinTitle">คลัง Prompt AI สาธารณสุข</h2>
-    <p>กรอกรหัส PIN 4 หลักเพื่อเข้าใช้งาน</p>
-    <div class="pin-dots" id="pinDots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p>กรอกรหัส PIN 6 หลักเพื่อเข้าใช้งาน</p>
+    <div class="pin-dots" id="pinDots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="pin-msg" id="pinMsg" role="alert"></div>
     <div class="pin-pad" id="pinPad">
       <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
@@ -1242,8 +1242,8 @@ if (h && PROMPTS.some(p => p.id === h)) openPrompt(h);
 <script>
 (function(){
   // PIN gate (client-side only: deters casual access, not real security).
-  // To change the PIN: put the SHA-256 hex of the new 4 digits in PIN_HASH.
-  const PIN_HASH = '5313e5bf17148de844ff74be3663d47c6e361ca469b30a36337701233c89a15e';
+  // To change the PIN: put the SHA-256 hex of the new 6 digits in PIN_HASH.
+  const PIN_HASH = '5cdbc7b8d534e0ccb2816260743b55b06e35ff583f9faa0c30e3234ddcb18b44';
   const root = document.documentElement, dots = document.getElementById('pinDots'), msg = document.getElementById('pinMsg');
   let pin = '';
   document.querySelectorAll('#pinPad button').forEach((b,i) => b.style.setProperty('--n', i));
@@ -1266,7 +1266,7 @@ if (h && PROMPTS.some(p => p.id === h)) openPrompt(h);
     setTimeout(() => { dots.classList.remove('err'); pin = ''; paint(); }, 450);
   }
   function press(k){
-    if (!root.classList.contains('locked') || pin.length >= 4 && /^\d$/.test(k)) return;
+    if (!root.classList.contains('locked') || pin.length >= 6 && /^\d$/.test(k)) return;
     msg.textContent = '';
     const btn = document.querySelector('#pinPad [data-k="' + k + '"]');
     if (btn){ btn.classList.remove('tap'); void btn.offsetWidth; btn.classList.add('tap'); }
@@ -1274,7 +1274,7 @@ if (h && PROMPTS.some(p => p.id === h)) openPrompt(h);
     else if (k === 'clear') pin = '';
     else if (/^\d$/.test(k)) pin += k;
     paint();
-    if (pin.length === 4) check();
+    if (pin.length === 6) check();
   }
   document.getElementById('pinPad').addEventListener('click', e => { const b = e.target.closest('button'); if (b) press(b.dataset.k); });
   document.addEventListener('keydown', e => {
